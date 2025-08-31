@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:movie_verse/Features/Home/presentation/Views/Detials_View/widgets/DetialsViewBody.dart';
 
 class DetialsView extends StatelessWidget {
@@ -6,6 +7,6 @@ class DetialsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const DetialsViewBody();
+    return DetialsViewBody();
   }
 }
