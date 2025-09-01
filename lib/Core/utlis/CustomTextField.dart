@@ -54,7 +54,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       ),
       obscureText: isObscure,
       decoration: InputDecoration(
-        errorStyle: TextStyle(color: Colors.red[900]),
+        errorStyle: TextStyle(color: Colors.white),
         errorMaxLines: 7,
         prefixIcon: widget.prefixIcon != null
             ? Icon(widget.prefixIcon, color: Color(0xff3b82f6), size: 24)
