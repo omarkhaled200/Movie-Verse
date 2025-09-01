@@ -17,6 +17,7 @@ abstract class AppRouter {
   static final homeview = '/homeview';
   static final detialsview = '/detialsview';
   static final searchview = '/searchview';
+  static final viewallpage = '/viewallpage';
 
   static final router = GoRouter(
     routes: [

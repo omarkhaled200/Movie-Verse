@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:movie_verse/Features/Home/presentation/Views/Home%20View/Widgets/CustomListViewItems.dart';
 
 class CustomTopicNameItem extends StatelessWidget {
@@ -24,8 +25,8 @@ class CustomTopicNameItem extends StatelessWidget {
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
             ),
 
-            GestureDetector(
-              onTap: () {},
+            TextButton(
+              onPressed: () {},
               child: Text(
                 'View all',
                 style: TextStyle(fontSize: 20, color: Color(0xff3b82f6)),
