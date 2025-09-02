@@ -13,7 +13,7 @@ class customcontainerimage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height * 0.4,
+      height: height * 0.6,
       decoration: BoxDecoration(
         image: DecorationImage(image: image, fit: BoxFit.fill),
         borderRadius: BorderRadius.only(

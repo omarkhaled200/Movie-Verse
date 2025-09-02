@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CustomDisplayfilmDuration extends StatelessWidget {
-  const CustomDisplayfilmDuration({super.key});
-
+  const CustomDisplayfilmDuration({super.key, required this.duration});
+  final String duration;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -17,7 +17,7 @@ class CustomDisplayfilmDuration extends StatelessWidget {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
             ),
             Text(
-              "2H 63M/s",
+              "$duration",
               style: TextStyle(color: Colors.amber, fontSize: 18),
             ),
           ],

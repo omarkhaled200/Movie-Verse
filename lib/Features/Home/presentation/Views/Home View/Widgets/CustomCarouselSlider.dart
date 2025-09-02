@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:movie_verse/Core/utlis/App_Router.dart';
 import 'package:movie_verse/Features/Home/presentation/View_Model/Home_View_View_modal/Get%20Popular%20Movie/get_popular_movie_cubit.dart';
 
 class CustomCarouselSlider extends StatefulWidget {
@@ -25,14 +27,21 @@ class _CustomCarouselSliderState extends State<CustomCarouselSlider> {
             children: [
               CarouselSlider(
                 items: state.movie.map((e) {
-                  return Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    width: width,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(22),
-                      child: Image.network(
-                        "https://image.tmdb.org/t/p/w500${e.posterPath}",
-                        fit: BoxFit.cover,
+                  return GestureDetector(
+                    onTap: () {
+                      GoRouter.of(
+                        context,
+                      ).push(AppRouter.detialsview, extra: e.id);
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 4),
+                      width: width,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(22),
+                        child: Image.network(
+                          "https://image.tmdb.org/t/p/w500${e.posterPath}",
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   );

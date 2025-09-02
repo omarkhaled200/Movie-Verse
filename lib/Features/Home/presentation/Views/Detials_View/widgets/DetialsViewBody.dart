@@ -1,7 +1,11 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_verse/Core/utlis/assets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_verse/Core/utlis/api_class.dart';
 import 'package:movie_verse/Core/utlis/custom_Container_image.dart';
-import 'package:movie_verse/Features/Home/data/Home%20view%20data/Model/trendingmodal.dart';
+import 'package:movie_verse/Features/Home/data/Detials%20view%20data/Detials%20Repos/Detials_Repo_impl.dart';
+import 'package:movie_verse/Features/Home/presentation/View_Model/Detials_View_View_modal/Get%20Detial%20Movie%20View/get_detial_movie_view_cubit.dart';
+import 'package:movie_verse/Features/Home/presentation/View_Model/Detials_View_View_modal/Get%20Similar%20Moive%20cubit/get_similar_moive_cubit.dart';
 import 'package:movie_verse/Features/Home/presentation/Views/Detials_View/widgets/CastAndCrewInformationitems.dart';
 import 'package:movie_verse/Features/Home/presentation/Views/Detials_View/widgets/CustomArrowback.dart';
 import 'package:movie_verse/Features/Home/presentation/Views/Detials_View/widgets/CustomFilmInfoRow.dart';
@@ -16,61 +20,121 @@ class DetialsViewBody extends StatelessWidget {
   Widget build(BuildContext context) {
     var height = MediaQuery.sizeOf(context).height;
     var width = MediaQuery.sizeOf(context).width;
+
     return Scaffold(
       body: SafeArea(
-        child: Stack(
-          children: [
-            customcontainerimage(height: height, image: NetworkImage("")),
-            Container(color: Colors.black.withOpacity(0.3)),
-            Positioned.fill(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(height: height * 0.35),
-                    CustomFilmNameDesign(width: width, height: height),
-                    CustomFilmTypewidget(),
-                    const SizedBox(height: 20),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: CustomFilmInfoRow(),
+        child: BlocBuilder<GetDetialMovieViewCubit, GetDetialMovieViewState>(
+          builder: (context, state) {
+            if (state is GetDetialMovieViewSuccess) {
+              int runtime = state.movie.runtime!; // بالدقايق
+              int hours = runtime ~/ 60; // القسمة الصحيحة
+              int minutes = runtime % 60; // الباقي
+
+              String duration = "${hours}h ${minutes}m";
+
+              return Stack(
+                children: [
+                  customcontainerimage(
+                    height: height,
+                    image: NetworkImage(
+                      "https://image.tmdb.org/t/p/w500${state.movie.posterPath}",
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: const Text(
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
-                        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
-                        style: TextStyle(color: Colors.white70, fontSize: 16),
+                  ),
+
+                  Container(
+                    height: height * 0.6,
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Colors.transparent, Colors.black54],
                       ),
                     ),
+                  ),
 
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Cast And Crew',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w600,
+                  const Positioned(top: 15, left: 15, child: CustomArrowback()),
+
+                  DraggableScrollableSheet(
+                    initialChildSize: 0.55,
+                    minChildSize: 0.55,
+                    maxChildSize: 0.95,
+                    builder: (context, controller) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.50),
+                          borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(20),
                           ),
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: CastAndCrewInformationitems(),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: SimillarFilmSection(),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Positioned(top: 15, left: 15, child: CustomArrowback()),
-          ],
+                        child: ListView(
+                          controller: controller,
+                          padding: const EdgeInsets.all(16),
+                          children: [
+                            CustomFilmNameDesign(
+                              width: width,
+                              height: height,
+                              filmname: '${state.movie.title}',
+                            ),
+                            const SizedBox(height: 10),
+
+                            CustomFilmTypewidget(
+                              genremodal: state.movie.genres!,
+                            ),
+
+                            const SizedBox(height: 20),
+
+                            CustomFilmInfoRow(
+                              rate: "${state.movie.voteAverage}",
+                              duration: duration,
+                            ),
+
+                            const SizedBox(height: 16),
+
+                            Text(
+                              state.movie.overview ?? '',
+                              style: const TextStyle(
+                                color: Colors.white70,
+                                fontSize: 16,
+                                height: 1.4,
+                              ),
+                            ),
+
+                            const SizedBox(height: 24),
+
+                            const Text(
+                              'Cast And Crew',
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            const CastAndCrewInformationitems(),
+
+                            const SizedBox(height: 24),
+
+                            BlocProvider(
+                              create: (context) => GetSimilarMoiveCubit(
+                                DetialsRepoImpl(ApiClass(Dio())),
+                              )..GetSimilarMoive(id: id),
+                              child: const SimillarFilmSection(),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              );
+            } else if (state is GetDetialMovieViewFailure) {
+              return const Center(child: Text("Failed to load data"));
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(color: Color(0xff3b82f6)),
+              );
+            }
+          },
         ),
       ),
     );

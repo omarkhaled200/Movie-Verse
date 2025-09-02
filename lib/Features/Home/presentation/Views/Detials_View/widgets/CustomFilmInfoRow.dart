@@ -4,8 +4,13 @@ import 'package:movie_verse/Features/Home/presentation/Views/Detials_View/widget
 import 'package:movie_verse/Features/Home/presentation/Views/Detials_View/widgets/CustomMovieTrailerVideo.dart';
 
 class CustomFilmInfoRow extends StatelessWidget {
-  const CustomFilmInfoRow({super.key});
-
+  const CustomFilmInfoRow({
+    super.key,
+    required this.rate,
+    required this.duration,
+  });
+  final String rate;
+  final String duration;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -14,12 +19,14 @@ class CustomFilmInfoRow extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CustomDisplayfilmRate(),
+            CustomDisplayfilmRate(rate: rate),
             SizedBox(height: 5),
-            CustomDisplayfilmDuration(),
+            CustomDisplayfilmDuration(duration: duration),
           ],
         ),
-        CustomMovieTrailerVideo(),
+        CustomMovieTrailerVideo(
+          youtubeUrl: 'https://www.youtube.com/embed/f8vm3koMd3A',
+        ),
       ],
     );
   }
