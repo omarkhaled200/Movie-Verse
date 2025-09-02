@@ -13,7 +13,7 @@ class StarRating extends StatelessWidget {
       rating: fiveStarRating,
       itemBuilder: (context, index) => Icon(Icons.star, color: Colors.amber),
       itemCount: 5,
-      itemSize: 20.0,
+      itemSize: 18.0,
       direction: Axis.horizontal,
     );
   }

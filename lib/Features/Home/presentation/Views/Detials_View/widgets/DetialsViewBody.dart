@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_verse/Core/utlis/assets.dart';
 import 'package:movie_verse/Core/utlis/custom_Container_image.dart';
+import 'package:movie_verse/Features/Home/data/Home%20view%20data/Model/trendingmodal.dart';
 import 'package:movie_verse/Features/Home/presentation/Views/Detials_View/widgets/CastAndCrewInformationitems.dart';
 import 'package:movie_verse/Features/Home/presentation/Views/Detials_View/widgets/CustomArrowback.dart';
 import 'package:movie_verse/Features/Home/presentation/Views/Detials_View/widgets/CustomFilmInfoRow.dart';
@@ -9,8 +10,8 @@ import 'package:movie_verse/Features/Home/presentation/Views/Detials_View/widget
 import 'package:movie_verse/Features/Home/presentation/Views/Detials_View/widgets/Simillar_Film_Section.dart';
 
 class DetialsViewBody extends StatelessWidget {
-  const DetialsViewBody({super.key});
-
+  const DetialsViewBody({super.key, required this.id});
+  final int id;
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.sizeOf(context).height;
@@ -19,10 +20,7 @@ class DetialsViewBody extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            customcontainerimage(
-              height: height,
-              image: AssetImage(Assets.rata),
-            ),
+            customcontainerimage(height: height, image: NetworkImage("")),
             Container(color: Colors.black.withOpacity(0.3)),
             Positioned.fill(
               child: SingleChildScrollView(

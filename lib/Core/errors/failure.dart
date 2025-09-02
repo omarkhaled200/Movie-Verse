@@ -21,7 +21,9 @@ class ServerFailure extends Failure {
         return ServerFailure(' Bad Certificate with APiServer');
       case DioExceptionType.badResponse:
         return ServerFailure.fromResponse(
-            dioexception.response!.statusCode!, dioexception.response!.data);
+          dioexception.response!.statusCode!,
+          dioexception.response!.data,
+        );
       case DioExceptionType.cancel:
         return ServerFailure('The Request to ApiServer was Canceled');
       case DioExceptionType.connectionError:
@@ -34,9 +36,9 @@ class ServerFailure extends Failure {
   factory ServerFailure.fromResponse(int statuscode, dynamic response) {
     if (statuscode == 400 || statuscode == 401 || statuscode == 422) {
       print(response['message']);
-      return ServerFailure(response['message'] ??
-          response['error'] ??
-          'Unexpected error Occured');
+      return ServerFailure(
+        response['message'] ?? response['error'] ?? 'Unexpected error Occured',
+      );
     } else if (statuscode == 404) {
       return ServerFailure('Your request not Found,Please try later!');
     } else if (statuscode == 500) {

@@ -1,7 +1,15 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_verse/Core/utlis/api_class.dart';
 import 'package:movie_verse/Core/utlis/assets.dart';
+import 'package:movie_verse/Features/Home/data/Home%20view%20data/Home%20Repo/Home_Repo_impl.dart';
+import 'package:movie_verse/Features/Home/presentation/View_Model/Home_View_View_modal/Get%20Popular%20Movie/get_popular_movie_cubit.dart';
 import 'package:movie_verse/Features/Home/presentation/Views/Home%20View/Widgets/CustomCarouselSlider.dart';
-import 'package:movie_verse/Features/Home/presentation/Views/Home%20View/Widgets/CustomTopicNameItem.dart';
+import 'package:movie_verse/Features/Home/presentation/Views/Home%20View/Widgets/CustomTopicNameNowPlayingItem.dart';
+import 'package:movie_verse/Features/Home/presentation/Views/Home%20View/Widgets/CustomTopicNameTopRatedItem.dart';
+import 'package:movie_verse/Features/Home/presentation/Views/Home%20View/Widgets/CustomTopicNameTrendingItem.dart';
+import 'package:movie_verse/Features/Home/presentation/Views/Home%20View/Widgets/CustomTopicNameUpcomingItem.dart';
 
 class CustomScrollViewHomeView extends StatelessWidget {
   const CustomScrollViewHomeView({super.key});
@@ -12,17 +20,21 @@ class CustomScrollViewHomeView extends StatelessWidget {
       slivers: [
         SliverToBoxAdapter(
           child: Column(
-            children: [CustomCarouselSlider(), SizedBox(height: 20)],
+            children: [
+              BlocProvider(
+                create: (context) =>
+                    GetPopularMovieCubit(HomeRepoImpl(ApiClass(Dio())))
+                      ..getPopularMovie(),
+                child: CustomCarouselSlider(),
+              ),
+              SizedBox(height: 20),
+            ],
           ),
         ),
         SliverToBoxAdapter(
           child: Column(
             children: [
-              CustomTopicNameItem(
-                titlename: "Trending Movies",
-                imageurl: Assets.titanic,
-                filmname: "Titanic",
-              ),
+              CustomTopicNameTrendingItem(titlename: "Trending Movies"),
               SizedBox(height: 10),
             ],
           ),
@@ -30,11 +42,7 @@ class CustomScrollViewHomeView extends StatelessWidget {
         SliverToBoxAdapter(
           child: Column(
             children: [
-              CustomTopicNameItem(
-                titlename: "Now Playing",
-                imageurl: Assets.loginimage,
-                filmname: "Titanic",
-              ),
+              CustomTopicNameNowPlayingItem(titlename: "Now Playing"),
               SizedBox(height: 10),
             ],
           ),
@@ -42,11 +50,7 @@ class CustomScrollViewHomeView extends StatelessWidget {
         SliverToBoxAdapter(
           child: Column(
             children: [
-              CustomTopicNameItem(
-                titlename: "Top Rated",
-                imageurl: Assets.registerimage,
-                filmname: "Titanic",
-              ),
+              CustomTopicNameTopRatedItem(titlename: "Top Rated"),
               SizedBox(height: 10),
             ],
           ),
@@ -54,11 +58,7 @@ class CustomScrollViewHomeView extends StatelessWidget {
         SliverToBoxAdapter(
           child: Column(
             children: [
-              CustomTopicNameItem(
-                titlename: "Upcoming",
-                imageurl: Assets.rata,
-                filmname: "Ratatouille",
-              ),
+              CustomTopicNameUpcomingItem(titlename: "Upcoming"),
               SizedBox(height: 10),
             ],
           ),

@@ -29,20 +29,24 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   animated_text_kit: ^4.2.3
+  bloc: ^9.0.0
   cached_network_image: ^3.4.1
   carousel_slider: ^5.1.1
+  cloud_firestore: ^5.6.12
   cupertino_icons: ^1.0.8
+  dartz: ^0.10.1
   device_preview_plus: ^2.4.7
   dio: ^5.9.0
-  firebase_core: ^3.5.0
+  equatable: ^2.0.7
   firebase_auth: ^5.1.4
-  google_sign_in: ^6.2.1
-  cloud_firestore: ^5.6.12
+  firebase_core: ^3.5.0
   flutter:
     sdk: flutter
+  flutter_bloc: ^9.1.1
   flutter_rating_bar: ^4.0.1
   font_awesome_flutter: ^10.9.1
   go_router: ^16.2.0
+  google_sign_in: ^6.2.1
   lottie: ^3.3.1
   modal_progress_hud_nsn: ^0.5.1
   smooth_page_indicator: ^1.2.1

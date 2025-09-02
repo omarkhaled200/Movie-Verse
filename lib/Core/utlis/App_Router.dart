@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movie_verse/Features/Auth/presentation/Views/Login%20Views/Login_page.dart';
 import 'package:movie_verse/Features/Auth/presentation/Views/Register%20Views/Register_View.dart';
+import 'package:movie_verse/Features/Home/data/Home%20view%20data/Model/trendingmodal.dart';
 import 'package:movie_verse/Features/Home/presentation/Views/Detials_View/Detials_View.dart';
 import 'package:movie_verse/Features/Home/presentation/Views/Home%20View/Home_view.dart';
 import 'package:movie_verse/Features/Movie_Search/peresentation/View/Search_View.dart';
@@ -91,7 +92,7 @@ abstract class AppRouter {
         pageBuilder: (context, state) {
           return CustomTransitionPage(
             key: state.pageKey,
-            child: const DetialsView(),
+            child: DetialsView(id: state.extra as int),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
                   return FadeTransition(opacity: animation, child: child);
