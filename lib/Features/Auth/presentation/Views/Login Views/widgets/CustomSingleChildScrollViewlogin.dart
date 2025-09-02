@@ -8,7 +8,7 @@ import 'package:movie_verse/Core/utlis/CustomRowAccount(have%20Account).dart';
 import 'package:movie_verse/Core/utlis/CustomTextField.dart';
 import 'package:movie_verse/Core/utlis/Functions/Show_snackbar.dart';
 import 'package:movie_verse/Core/utlis/Functions/Valdiation.dart';
-import 'package:movie_verse/Core/utlis/Valdiater.dart' hide valdiate;
+
 import 'package:movie_verse/Features/Auth/presentation/Views/Login%20Views/widgets/CustomRowloginbygmailorapple.dart';
 import 'package:movie_verse/Features/Auth/presentation/Views/Login%20Views/widgets/Logo_and_text_login_page.dart';
 
@@ -35,6 +35,7 @@ class _CustomSingleChildScrollViewloginState
   GlobalKey<FormState> formkey = GlobalKey();
 
   bool isloading = false;
+
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
@@ -125,7 +126,6 @@ class _CustomSingleChildScrollViewloginState
                               );
                             }
                           } on FirebaseAuthException catch (ex) {
-                            // التحقق من أنواع الأخطاء
                             if (ex.code == 'user-not-found') {
                               CustomScaffoldMessenger(
                                 context,
@@ -141,8 +141,6 @@ class _CustomSingleChildScrollViewloginState
                                 Colors.red,
                               );
                             } else {
-                              // عرض الخطأ في حالة عدم وجود أخطاء محددة
-
                               CustomScaffoldMessenger(
                                 context,
                                 "Firebase Error: ${ex.message}",
@@ -151,9 +149,6 @@ class _CustomSingleChildScrollViewloginState
                               );
                             }
                           } catch (ex) {
-                            // عرض رسالة الخطأ العامة في حالة حدوث أي استثناء آخر
-                            print('the error is :$ex');
-
                             CustomScaffoldMessenger(
                               context,
                               "There was an error: $ex",
