@@ -8,21 +8,22 @@ class CustomFilmTypewidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final countnum = 3;
-
     return SizedBox(
       height: 30,
       child: Center(
         child: ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
-          itemCount: countnum,
+          itemCount: genremodal.length,
           itemBuilder: (context, index) {
             return Row(
               children: [
-                const Text("MyStery", style: TextStyle(color: Colors.white)),
+                Text(
+                  "${genremodal[index].name}",
+                  style: TextStyle(color: Colors.white),
+                ),
                 const SizedBox(width: 5),
-                if (index != countnum - 1)
+                if (index != genremodal.length - 1)
                   const Icon(Icons.circle, color: Colors.amberAccent, size: 8),
                 const SizedBox(width: 5),
               ],

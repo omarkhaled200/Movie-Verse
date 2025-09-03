@@ -4,9 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_verse/Core/utlis/api_class.dart';
 import 'package:movie_verse/Core/utlis/custom_Container_image.dart';
 import 'package:movie_verse/Features/Home/data/Detials%20view%20data/Detials%20Repos/Detials_Repo_impl.dart';
+import 'package:movie_verse/Features/Home/presentation/View_Model/Detials_View_View_modal/Get%20Cast%20Movie%20Cubit/get_cast_movie_cubit.dart';
+import 'package:movie_verse/Features/Home/presentation/View_Model/Detials_View_View_modal/Get%20Crew%20Movie%20Cubit/get_crew_movie_cubit.dart';
 import 'package:movie_verse/Features/Home/presentation/View_Model/Detials_View_View_modal/Get%20Detial%20Movie%20View/get_detial_movie_view_cubit.dart';
 import 'package:movie_verse/Features/Home/presentation/View_Model/Detials_View_View_modal/Get%20Similar%20Moive%20cubit/get_similar_moive_cubit.dart';
-import 'package:movie_verse/Features/Home/presentation/Views/Detials_View/widgets/CastAndCrewInformationitems.dart';
+import 'package:movie_verse/Features/Home/presentation/View_Model/Detials_View_View_modal/Get%20Trailar%20Moive%20Cubit/get_trailar_moive_cubit.dart';
+import 'package:movie_verse/Features/Home/presentation/Views/Detials_View/widgets/Cast_Information_items.dart';
+import 'package:movie_verse/Features/Home/presentation/Views/Detials_View/widgets/Crew_Information_items.dart';
 import 'package:movie_verse/Features/Home/presentation/Views/Detials_View/widgets/CustomArrowback.dart';
 import 'package:movie_verse/Features/Home/presentation/Views/Detials_View/widgets/CustomFilmInfoRow.dart';
 import 'package:movie_verse/Features/Home/presentation/Views/Detials_View/widgets/CustomFilmNameDesign.dart';
@@ -26,9 +30,9 @@ class DetialsViewBody extends StatelessWidget {
         child: BlocBuilder<GetDetialMovieViewCubit, GetDetialMovieViewState>(
           builder: (context, state) {
             if (state is GetDetialMovieViewSuccess) {
-              int runtime = state.movie.runtime!; // بالدقايق
-              int hours = runtime ~/ 60; // القسمة الصحيحة
-              int minutes = runtime % 60; // الباقي
+              int runtime = state.movie.runtime!;
+              int hours = runtime ~/ 60;
+              int minutes = runtime % 60;
 
               String duration = "${hours}h ${minutes}m";
 
@@ -83,9 +87,14 @@ class DetialsViewBody extends StatelessWidget {
 
                             const SizedBox(height: 20),
 
-                            CustomFilmInfoRow(
-                              rate: "${state.movie.voteAverage}",
-                              duration: duration,
+                            BlocProvider(
+                              create: (context) => GetTrailarMoiveCubit(
+                                DetialsRepoImpl(ApiClass(Dio())),
+                              )..getTrailarMovie(id: id),
+                              child: CustomFilmInfoRow(
+                                rate: "${state.movie.voteAverage}",
+                                duration: duration,
+                              ),
                             ),
 
                             const SizedBox(height: 16),
@@ -102,7 +111,7 @@ class DetialsViewBody extends StatelessWidget {
                             const SizedBox(height: 24),
 
                             const Text(
-                              'Cast And Crew',
+                              'Cast',
                               style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w600,
@@ -110,7 +119,27 @@ class DetialsViewBody extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(height: 10),
-                            const CastAndCrewInformationitems(),
+                            BlocProvider(
+                              create: (context) => GetCastMovieCubit(
+                                DetialsRepoImpl(ApiClass(Dio())),
+                              )..getCastMovie(id: id),
+                              child: const CastInformationItem(),
+                            ),
+                            const Text(
+                              'Crew',
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            BlocProvider(
+                              create: (context) => GetCrewMovieCubit(
+                                DetialsRepoImpl(ApiClass(Dio())),
+                              )..getCrewMoive(id: id),
+                              child: const CrewInformationItem(),
+                            ),
 
                             const SizedBox(height: 24),
 

@@ -58,9 +58,8 @@ class _SplashViewBodyState extends State<SplashViewBody>
   }
 
   void navigateToonboradingViews() {
-    Future.delayed(const Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 5), () {
       GoRouter.of(context).push(AppRouter.onboardinview1);
-      // GoRouter.of(context).push(AppRouter.searchview);
     });
   }
 }

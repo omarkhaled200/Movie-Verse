@@ -13,7 +13,7 @@ class SearchModel extends Equatable {
   final String? releaseDate;
   final String? title;
   final bool? video;
-  final int? voteAverage;
+  final double? voteAverage; // double بدل int
   final int? voteCount;
 
   const SearchModel({
@@ -48,7 +48,7 @@ class SearchModel extends Equatable {
     releaseDate: json['release_date'] as String?,
     title: json['title'] as String?,
     video: json['video'] as bool?,
-    voteAverage: json['vote_average'] as int?,
+    voteAverage: (json['vote_average'] as num?)?.toDouble(), // تعديل
     voteCount: json['vote_count'] as int?,
   );
 
@@ -70,22 +70,20 @@ class SearchModel extends Equatable {
   };
 
   @override
-  List<Object?> get props {
-    return [
-      adult,
-      backdropPath,
-      genreIds,
-      id,
-      originalLanguage,
-      originalTitle,
-      overview,
-      popularity,
-      posterPath,
-      releaseDate,
-      title,
-      video,
-      voteAverage,
-      voteCount,
-    ];
-  }
+  List<Object?> get props => [
+    adult,
+    backdropPath,
+    genreIds,
+    id,
+    originalLanguage,
+    originalTitle,
+    overview,
+    popularity,
+    posterPath,
+    releaseDate,
+    title,
+    video,
+    voteAverage,
+    voteCount,
+  ];
 }
